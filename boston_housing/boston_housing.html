@@ -11964,9 +11964,9 @@ Standard deviation of prices: $165,171.13
 <p><strong>Answer: </strong></p>
 <p>Without having looked into the data, the three features of the boston housing data should influence housing prices in the following ways:</p>
 <ul>
-<li>The higher the value of 'RM', the higher the price; and conversely, the lower the value of 'RM', the lower the price</li>
-<li>The value of 'LSAT' should be inversely proportional to housing prices</li>
-<li>Student teacher ratios should also be inversely proportinoal to housing prices</li>
+<li>The higher the value of 'RM', the higher the price; and conversely, the lower the value of 'RM', the lower the price. Since 'RM' is the number of rooms in a house, the more rooms in a house the more the house should be priced.</li>
+<li>The value of 'LSAT' should be inversely proportional to housing prices. Since 'LSTAT' is the percddent of working poor, the more poor working class in a neighborhood the lower the home prices are likely to be since they will have less means to pay for homes. </li>
+<li>Student teacher ratios should also be inversley proportinoal to housing prices. Home prices in such neighborhoods are likely to be higher since people are willing to spend more on a house where their child can get a better education.</li>
 </ul>
 <p>While these relationships will not be exact, I expect there to be such trends in the data.</p>
 
@@ -12198,9 +12198,11 @@ Standard deviation of prices: $165,171.13
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong></p>
-<p>If we let $p_{train}$ denote the proportion of training data, then for values of $p_{train}$ too close to $1$, we will have a tendancy to overfit the model. While our error metrics may appear good in this case, when the model comes across new combinations of features the model will likely not be abkle to make accurate predictions. In short, the model may have high variance.</p>
-<p>For values of $p_{train}$ close to $0$, the model may suffer from too much bias. That is, the model will underfit the data and may not be able to explain ocmbinations of features present in the testing data.</p>
-<p>Thus, splitting the data into training and testing data allows us to measure the degree to which we are underfitting or overfitting the data by observing our results across different values of $p_{train}$.</p>
+<p>The benifit to splitting a dataset into a ratio of training and testing subsets is that it</p>
+<ul>
+<li>Helps evaluate performance of the model on unseen data</li>
+<li>Evaluate the degree to which our model overfits or underfits training data</li>
+</ul>
 
 </div>
 </div>
@@ -13279,7 +13281,7 @@ Think about the pros and cons of adding more training points based on if the tra
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong></p>
 <p>Let's consider the graph with a max depth value of three. As more training points are added, the R2 score of the training curve is converging to a value just above 0.8. Similarly, the testing curve has R2 score converging to a value just under 0.8.</p>
-<p>One pro of adding more training data is that more variation will appear that can be explained by the model. A con is that the model overfits the data. In the case of the decision tree model above, adding more training points does not appear to provide any benifit to the model. Either the training data being added is similar to existing training data, or decision trees are unable to explain further variation appearing in the data and a new model methodology should be explored.</p>
+<p>One pro of adding more training data is that more variation will appear that can be explained by the model. In the decision tree model above adding more training points does not appear to provide any benifit to the model. Either the training data being added is similar to existing training data, or decision trees are unable to explain further variation appearing in the data and a new model methodology should be explored. Thus, from a cost-benifit analysis perspective, we should not pursue any additional training data for our model.</p>
 
 </div>
 </div>
@@ -13750,7 +13752,7 @@ gg==
 <ul>
 <li><p>When the model is trained with a maximum depth of 1, the model suffers from high bias. A decision tree with a maximum depth of 1 will only have one branch, and therefore, will not be complex enough to accurately predict variations in too complex data.</p>
 </li>
-<li><p>When the model is trained with a maximum depth of 10, the model suffers from high variance. A tree with a maximum depth of 10 will have 10 branching points, and thus, up to $2^{10}$ bins which may be higher than the number of data points. Another indication is that the shaded region is wide when the maximum depth is 10 indicating the degree of uncertaintity in the score. This is a symptomn in overfitting since it indicates that score values when the maximum depth is 10 are highly sensitive to the training set.</p>
+<li><p>When the model is trained with a maximum depth of 10, the model suffers from high variance. A tree with a maximum depth of 10 will have 10 branching points, and thus, up to $2^{10}$ bins which may be higher than the number of data points. Another indication is that the training score curve and testing score curve a far apart when the maximum depth is 10. This is a symptomn in overfitting since it indicates that score values when the maximum depth is 10 are highly sensitive to the training set. Although the training scores appear to converge to 1 as the maximum depth approaches 10, the testing scores detoriate as the maximjm depth approaches 10. Thus, as the maximum depth approaches 10, the model appears to be overfitting to the training data.</p>
 </li>
 </ul>
 
@@ -13842,7 +13844,7 @@ gg==
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong></p>
-<p>The k-fold cross-validation training technique is a method of splitting the data into different parts for training and testing. The data is first partitioned into $k$ subsets. If we denote this partition by $\mathcal{P}=\{P_1,P_2,\ldots,P_k\}$, then for $i=1,\ldots,k$ we split the data into $\text{Training}=P_1,\ldots,P_{i-1},\ldots,P_k$ and $\text{Testing}=P_i$. Thus, we will fit the model $k$-times.</p>
+<p>The k-fold cross-validation training technique is a method of splitting the data into different parts for training and testing. The data is first partitioned into $k$ subsets. If we denote this partition by $\mathcal{P}=\{P_1,P_2,\ldots,P_k\}$, then for $i=1,\ldots,k$ we split the data into $\text{Training}=P_1,\ldots,P_{i-1},\ldots,P_k$ and $\text{Testing}=P_i$. Thus, we will fit the model $k$-times. We then assign a score to the model over the folds by taking the mean of the $k$ testing data erorr rates.</p>
 <p>The technique of k-fold cross-validation can be useful when applied to a grid search for optimal model parameters. By using k-fold cross-validation we can see the variation in different optimal parameters. If there are significant differences in optimal parameters over the folds then we can not be confient that the model parameters chosen are truly optimal. On the other hand, if we see consistent choices in optimal model paramters over the folds we can be confident that these model parameters are close to optimal based on the k-fold analysis results.</p>
 
 </div>
